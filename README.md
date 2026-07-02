@@ -84,7 +84,18 @@ cmake .. -DPY_VERSION=3.12 -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIRS} \
 make -j$(nproc)
 ```
 </details>
-If the build was successful you will end up with a `.whl` file inside `/Paddle/build/python/dist/`: you can then `docker cp running-container-id:/Paddle/build/python/dist/*.whl desired/location/on/device` (check the container id with `docker ps`). After you exit your container, if you ever want to fire it up again, remember you can always run `docker exec -it stopped-container-id /bin/bash` (check container id with `docker ps -a` this time as the container isn't running).
+If the build was successful you will end up with a `.whl` file inside `/Paddle/build/python/dist/`: you can then `docker cp running-container-id:/Paddle/build/python/dist/*.whl desired/location/on/device` (check the container id with `docker ps`). 
+
+After that create a virtual environment that matches the version you built (I built on Python `3.12`, which is why my wheel contains the string `cp312`, so I created an environment with `uv venv -p 3.12`). Then `source .venv/bin/activate` and `uv pip install -U paddlepaddle*.whl`: now you can `cd` to a local clone of this repo and continue installation as usual (`uv pip install .`).
+
+To make sure `paddlepaddle` is working properly before installing `ocrmypdf`, you can [test your installation with these steps from the PaddlePaddle docs](https://www.paddlepaddle.org.cn/documentation/docs/en/install/compile/linux-compile-by-make.html#yanzhenganzhuang):
+```bash
+python # enters a subshell into which you can execute Python code for testing
+import paddle
+paddle.utils.run_check()
+```
+
+After you exit your container, if you ever want to fire it up again, remember you can always run `docker exec -it stopped-container-id /bin/bash` (check container id with `docker ps -a` this time as the container isn't running).
 
 ### NixOS
 
