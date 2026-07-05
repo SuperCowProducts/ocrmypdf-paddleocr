@@ -95,7 +95,7 @@ import paddle
 paddle.utils.run_check()
 ```
 
-After you exit your container, if you ever want to fire it up again, remember you can always run `docker exec -it stopped-container-id /bin/bash` (check container id with `docker ps -a` this time as the container isn't running).
+After you exit your container, if you ever want to fire it up again, remember you can always run `docker start container-id-or-name` `docker exec -it container-id-or-name /bin/bash` (check container id with `docker ps -a` this time as the container isn't running).
 
 ### NixOS
 
